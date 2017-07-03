@@ -280,24 +280,24 @@ address {
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Notational Conventions">
 <link href="#rfc.section.2" rel="Chapter" title="2 The Necessity of Fallback">
-<link href="#rfc.section.3" rel="Chapter" title="3 Session resumption versus Keep-alive">
-<link href="#rfc.section.4" rel="Chapter" title="4 Zero RTT">
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Thinking in zero RTT">
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Here There Be Dragons">
-<link href="#rfc.section.5" rel="Chapter" title="5 Stream versus Flow Multiplexing">
-<link href="#rfc.section.6" rel="Chapter" title="6 Prioritization">
-<link href="#rfc.section.7" rel="Chapter" title="7 Graceful connection closure">
-<link href="#rfc.section.8" rel="Chapter" title="8 Information exposure and the Connection ID">
-<link href="#rfc.section.8.1" rel="Chapter" title="8.1 Server-Generated Connection ID">
-<link href="#rfc.section.9" rel="Chapter" title="9 Using Server Retry for Redirection">
-<link href="#rfc.section.10" rel="Chapter" title="10 Use of Versions and Cryptographic Handshake">
-<link href="#rfc.section.11" rel="Chapter" title="11 IANA Considerations">
-<link href="#rfc.section.12" rel="Chapter" title="12 Security Considerations">
-<link href="#rfc.section.13" rel="Chapter" title="13 Contributors">
-<link href="#rfc.section.14" rel="Chapter" title="14 Acknowledgments">
-<link href="#rfc.references" rel="Chapter" title="15 References">
-<link href="#rfc.references.1" rel="Chapter" title="15.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="15.2 Informative References">
+<link href="#rfc.section.3" rel="Chapter" title="3 Zero RTT">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Thinking in zero RTT">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Here There Be Dragons">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Session resumption versus Keep-alive">
+<link href="#rfc.section.4" rel="Chapter" title="4 Stream versus Flow Multiplexing">
+<link href="#rfc.section.5" rel="Chapter" title="5 Prioritization">
+<link href="#rfc.section.6" rel="Chapter" title="6 Graceful connection closure">
+<link href="#rfc.section.7" rel="Chapter" title="7 Information exposure and the Connection ID">
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Server-Generated Connection ID">
+<link href="#rfc.section.8" rel="Chapter" title="8 Using Server Retry for Redirection">
+<link href="#rfc.section.9" rel="Chapter" title="9 Use of Versions and Cryptographic Handshake">
+<link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 Security Considerations">
+<link href="#rfc.section.12" rel="Chapter" title="12 Contributors">
+<link href="#rfc.section.13" rel="Chapter" title="13 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="14 References">
+<link href="#rfc.references.1" rel="Chapter" title="14.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="14.2 Informative References">
 <link href="#rfc.authors" rel="Chapter">
 
 
@@ -306,7 +306,7 @@ address {
 
   <meta name="dct.creator" content="Kuehlewind, M. and B. Trammell" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-quic-applicability-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2017-6-19" />
+  <meta name="dct.issued" scheme="ISO8601" content="2017-6-27" />
   <meta name="dct.abstract" content="This document discusses the applicability of the QUIC transport protocol, focusing on caveats impacting application protocol development and deployment over QUIC. Its intended audience is designers of application protocol mappings to QUIC, and implementors of these application protocols." />
   <meta name="description" content="This document discusses the applicability of the QUIC transport protocol, focusing on caveats impacting application protocol development and deployment over QUIC. Its intended audience is designers of application protocol mappings to QUIC, and implementors of these application protocols." />
 
@@ -330,8 +330,8 @@ address {
 <td class="right">ETH Zurich</td>
 </tr>
 <tr>
-<td class="left">Expires: December 21, 2017</td>
-<td class="right">June 19, 2017</td>
+<td class="left">Expires: December 29, 2017</td>
+<td class="right">June 27, 2017</td>
 </tr>
 
     	
@@ -347,7 +347,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 21, 2017.</p>
+<p>This Internet-Draft will expire on December 29, 2017.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2017 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -363,41 +363,41 @@ address {
 </li>
 </ul><li>2.   <a href="#rfc.section.2">The Necessity of Fallback</a>
 </li>
-<li>3.   <a href="#rfc.section.3">Session resumption versus Keep-alive</a>
+<li>3.   <a href="#rfc.section.3">Zero RTT</a>
 </li>
-<li>4.   <a href="#rfc.section.4">Zero RTT</a>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Thinking in zero RTT</a>
 </li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Thinking in zero RTT</a>
+<li>3.2.   <a href="#rfc.section.3.2">Here There Be Dragons</a>
 </li>
-<li>4.2.   <a href="#rfc.section.4.2">Here There Be Dragons</a>
+<li>3.3.   <a href="#rfc.section.3.3">Session resumption versus Keep-alive</a>
 </li>
-</ul><li>5.   <a href="#rfc.section.5">Stream versus Flow Multiplexing</a>
+</ul><li>4.   <a href="#rfc.section.4">Stream versus Flow Multiplexing</a>
 </li>
-<li>6.   <a href="#rfc.section.6">Prioritization</a>
+<li>5.   <a href="#rfc.section.5">Prioritization</a>
 </li>
-<li>7.   <a href="#rfc.section.7">Graceful connection closure</a>
+<li>6.   <a href="#rfc.section.6">Graceful connection closure</a>
 </li>
-<li>8.   <a href="#rfc.section.8">Information exposure and the Connection ID</a>
+<li>7.   <a href="#rfc.section.7">Information exposure and the Connection ID</a>
 </li>
-<ul><li>8.1.   <a href="#rfc.section.8.1">Server-Generated Connection ID</a>
+<ul><li>7.1.   <a href="#rfc.section.7.1">Server-Generated Connection ID</a>
 </li>
-</ul><li>9.   <a href="#rfc.section.9">Using Server Retry for Redirection</a>
+</ul><li>8.   <a href="#rfc.section.8">Using Server Retry for Redirection</a>
 </li>
-<li>10.   <a href="#rfc.section.10">Use of Versions and Cryptographic Handshake</a>
+<li>9.   <a href="#rfc.section.9">Use of Versions and Cryptographic Handshake</a>
 </li>
-<li>11.   <a href="#rfc.section.11">IANA Considerations</a>
+<li>10.   <a href="#rfc.section.10">IANA Considerations</a>
 </li>
-<li>12.   <a href="#rfc.section.12">Security Considerations</a>
+<li>11.   <a href="#rfc.section.11">Security Considerations</a>
 </li>
-<li>13.   <a href="#rfc.section.13">Contributors</a>
+<li>12.   <a href="#rfc.section.12">Contributors</a>
 </li>
-<li>14.   <a href="#rfc.section.14">Acknowledgments</a>
+<li>13.   <a href="#rfc.section.13">Acknowledgments</a>
 </li>
-<li>15.   <a href="#rfc.references">References</a>
+<li>14.   <a href="#rfc.references">References</a>
 </li>
-<ul><li>15.1.   <a href="#rfc.references.1">Normative References</a>
+<ul><li>14.1.   <a href="#rfc.references.1">Normative References</a>
 </li>
-<li>15.2.   <a href="#rfc.references.2">Informative References</a>
+<li>14.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li><a href="#rfc.authors">Authors' Addresses</a>
 </li>
@@ -408,8 +408,8 @@ address {
   <h1 id="rfc.section.1">
 <a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
 </h1>
-<p id="rfc.section.1.p.1">QUIC <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> is a new transport protocol currently under development in the IETF quic working group, focusing on support of semantics as needed for HTTP/2 <a href="#I-D.ietf-quic-http" class="xref">[I-D.ietf-quic-http]</a> such as stream-multiplexing to avoid head-of-line blocking. Based on current deployment practices, QUIC is encapsulated in UDP. The version of QUIC that is currently under development will integrate TLS 1.3 <a href="#I-D.ietf-quic-tls" class="xref">[I-D.ietf-quic-tls]</a> to encrypt all payload data and most control information.</p>
-<p id="rfc.section.1.p.2">This document provides guidance for application developers that want to use the QUIC protocol without implementing it on their own. This includes general guidance for application use of HTTP/2 over QUIC as well as the use of other application layer protocols over QUIC. For specific guidance on how to integrate HTTP/2 with QUIC, see <a href="#I-D.ietf-quic-http" class="xref">[I-D.ietf-quic-http]</a>.</p>
+<p id="rfc.section.1.p.1">QUIC <a href="#QUIC" class="xref">[QUIC]</a> is a new transport protocol currently under development in the IETF quic working group, focusing on support of semantics as needed for HTTP/2 <a href="#QUIC-HTTP" class="xref">[QUIC-HTTP]</a> such as stream-multiplexing to avoid head-of-line blocking. Based on current deployment practices, QUIC is encapsulated in UDP. The version of QUIC that is currently under development will integrate TLS 1.3 <a href="#TLS13" class="xref">[TLS13]</a> to encrypt all payload data and most control information.</p>
+<p id="rfc.section.1.p.2">This document provides guidance for application developers that want to use the QUIC protocol without implementing it on their own. This includes general guidance for application use of HTTP/2 over QUIC as well as the use of other application layer protocols over QUIC. For specific guidance on how to integrate HTTP/2 with QUIC, see <a href="#QUIC-HTTP" class="xref">[QUIC-HTTP]</a>.</p>
 <p id="rfc.section.1.p.3">In the following sections we discuss specific caveats to QUIC&#8217;s applicability, and issues that application developers must consider when using QUIC as a transport for their application.</p>
 <h1 id="rfc.section.1.1">
 <a href="#rfc.section.1.1">1.1.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
@@ -423,106 +423,111 @@ address {
 <p id="rfc.section.2.p.3">Any fallback mechanism is likely to impose a degradation of performance; however, fallback MUST not silently violate the application&#8217;s expectation of confidentiality or integrity of its payload data.</p>
 <p id="rfc.section.2.p.4">Moreover, while encryption (in this case TLS) is inseparable integrated with QUIC, TLS negotiation over TCP can be blocked. In case it is RECOMMENDED to abort the connection, allowing the application to present a suitable prompt to the user that secure communication is unavailable.</p>
 <h1 id="rfc.section.3">
-<a href="#rfc.section.3">3.</a> <a href="#session-resumption-versus-keep-alive" id="session-resumption-versus-keep-alive">Session resumption versus Keep-alive</a>
+<a href="#rfc.section.3">3.</a> <a href="#zero-rtt" id="zero-rtt">Zero RTT</a>
 </h1>
-<p id="rfc.section.3.p.1">[EDITOR&#8217;S NOTE: guidance/recommendation to us 0-RTT session resumption rather then sending keep-alives?]</p>
+<p id="rfc.section.3.p.1">QUIC provides for 0-RTT connection establishment (see section 3.2 of <a href="#QUIC" class="xref">[QUIC]</a>). This presents opportunities and challenges for applications using QUIC.</p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#thinking-in-zero-rtt" id="thinking-in-zero-rtt">Thinking in zero RTT</a>
+</h1>
+<p id="rfc.section.3.1.p.1">[EDITOR&#8217;S NOTE: Jana noted at the interim in Paris that we should point out that applications need to be re-thought slightly to get the benefits of zero RTT. Add a little text here to discuss this and why it&#8217;s worth the effort, before we go straight into the dragons.]</p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#here-there-be-dragons" id="here-there-be-dragons">Here There Be Dragons</a>
+</h1>
+<p id="rfc.section.3.2.p.1">However, data in the frames contained in 0-RTT packets of a such a connection must be treated specially by the application layer. Replay of these packets can cause the data to processed twice. This is further described in <a href="#HTTP-RETRY" class="xref">[HTTP-RETRY]</a>.</p>
+<p id="rfc.section.3.2.p.2">0-RTT data also does not benefit from perfect forward secrecy (PFS).</p>
+<p id="rfc.section.3.2.p.3">Applications that cannot treat data that may appear in a 0-RTT connection establishment as idempotent MUST NOT use 0-RTT establishment. For this reason the QUIC transport SHOULD provide an interface for the application to indicate if 0-RTT support is in general desired or a way to indicate whether data is idempotent, and/or whether PFS is a hard requirement</p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> <a href="#session-resumption-versus-keep-alive" id="session-resumption-versus-keep-alive">Session resumption versus Keep-alive</a>
+</h1>
+<p id="rfc.section.3.3.p.1">[EDITOR&#8217;S NOTE: guidance/recommendation to us 0-RTT session resumption rather then sending keep-alives?]</p>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> <a href="#zero-rtt" id="zero-rtt">Zero RTT</a>
+<a href="#rfc.section.4">4.</a> <a href="#stream-versus-flow-multiplexing" id="stream-versus-flow-multiplexing">Stream versus Flow Multiplexing</a>
 </h1>
-<p id="rfc.section.4.p.1">QUIC provides for 0-RTT connection establishment (see section 3.2 of <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>). This presents opportunities and challenges for applications using QUIC.</p>
-<h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> <a href="#thinking-in-zero-rtt" id="thinking-in-zero-rtt">Thinking in zero RTT</a>
-</h1>
-<p id="rfc.section.4.1.p.1">[Editor&#8217;s Note: Jana noted at the interim in Paris that we should point out that applications need to be re-thought slightly to get the benefits of zero RTT. Add a little text here to discuss this and why it&#8217;s worth the effort, before we go straight into the dragons.]</p>
-<h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> <a href="#here-there-be-dragons" id="here-there-be-dragons">Here There Be Dragons</a>
-</h1>
-<p id="rfc.section.4.2.p.1">However, data in the frames contained in 0-RTT packets of a such a connection must be treated specially by the application layer. Replay of these packets can cause the data to processed twice. This is further described in <a href="#I-D.nottingham-httpbis-retry" class="xref">[I-D.nottingham-httpbis-retry]</a>.</p>
-<p id="rfc.section.4.2.p.2">0-RTT data also does not benefit from perfect forward secrecy (PFS).</p>
-<p id="rfc.section.4.2.p.3">Applications that cannot treat data that may appear in a 0-RTT connection establishment as idempotent MUST NOT use 0-RTT establishment. For this reason the QUIC transport SHOULD provide an interface for the application to indicate if 0-RTT support is in general desired or a way to indicate whether data is idempotent, and/or whether PFS is a hard requirement</p>
+<p id="rfc.section.4.p.1">QUIC&#8217;s stream multiplexing feature allows applications to run multiple streams over a single connection, without head-of-line blocking between streams, associated at a point in time with a single five-tuple. Streams are meaningful only to the application; since stream information is carried inside QUIC&#8217;s encryption boundary, no information about the stream(s) whose frames are carried by a given packet is visible to the network.</p>
+<p id="rfc.section.4.p.2">Stream multiplexing is not intended to be used for differentiating streams in terms of network treatment. Application traffic requiring different network treatment SHOULD therefore be carried over different five-tuples (i.e.  multiple QUIC connections). Given QUIC&#8217;s ability to send application data in the first RTT of a connection (if a previous connection to the same host has been successfully established to provide the respective credentials), the cost for establishing another connection are extremely low.</p>
 <h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#stream-versus-flow-multiplexing" id="stream-versus-flow-multiplexing">Stream versus Flow Multiplexing</a>
+<a href="#rfc.section.5">5.</a> <a href="#prioritization" id="prioritization">Prioritization</a>
 </h1>
-<p id="rfc.section.5.p.1">QUIC&#8217;s stream multiplexing feature allows applications to run multiple streams over a single connection, without head-of-line blocking between streams, associated at a point in time with a single five-tuple. Streams are meaningful only to the application; since stream information is carried inside QUIC&#8217;s encryption boundary, no information about the stream(s) whose frames are carried by a given packet is visible to the network.</p>
-<p id="rfc.section.5.p.2">Stream multiplexing is not intended to be used for differentiating streams in terms of network treatment. Application traffic requiring different network treatment SHOULD therefore be carried over different five-tuples (i.e.  multiple QUIC connections). Given QUIC&#8217;s ability to send application data in the first RTT of a connection (if a previous connection to the same host has been successfully established to provide the respective credentials), the cost for establishing another connection are extremely low.</p>
+<p id="rfc.section.5.p.1">Stream prioritization is not exposed to the network, nor to the receiver.  Prioritization can be realized by the sender and the QUIC transport should provide and interface for applications to prioritize streams <a href="#QUIC" class="xref">[QUIC]</a>.</p>
+<p id="rfc.section.5.p.2">Priority handling of retransmissions may be implemented by the sender in the transport layer and <a href="#QUIC" class="xref">[QUIC]</a> does not specify a specific way how this must be handled. Currently QUIC only provides fully reliable stream transmission, and as such prioritization of retransmission is likely beneficial. For not fully reliable streams priority scheduling of retransmissions over data of higher-priority streams might not be desired. In this case QUIC could also provide an interface or derive the prioritization decision from the reliability level of the stream.</p>
 <h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> <a href="#prioritization" id="prioritization">Prioritization</a>
+<a href="#rfc.section.6">6.</a> <a href="#graceful-connection-closure" id="graceful-connection-closure">Graceful connection closure</a>
 </h1>
-<p id="rfc.section.6.p.1">Stream prioritization is not exposed to the network, nor to the receiver.  Prioritization can be realized by the sender and the QUIC transport should provide and interface for applications to prioritize streams <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>.</p>
-<p id="rfc.section.6.p.2">Priority handling of retransmissions may be implemented by the sender in the transport layer and <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> does not specify a specific way how this must be handled. Currently QUIC only provides fully reliable stream transmission, and as such prioritization of retransmission is likely beneficial. For not fully reliable streams priority scheduling of retransmissions over data of higher-priority streams might not be desired. In this case QUIC could also provide an interface or derive the prioritization decision from the reliability level of the stream.</p>
+<p id="rfc.section.6.p.1">[EDITOR&#8217;S NOTE: give some guidance here about the steps an application should take; however this is still work in progress]</p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#graceful-connection-closure" id="graceful-connection-closure">Graceful connection closure</a>
+<a href="#rfc.section.7">7.</a> <a href="#connid" id="connid">Information exposure and the Connection ID</a>
 </h1>
-<p id="rfc.section.7.p.1">[EDITOR&#8217;S NOTE: give some guidance here about the steps an application should take; however this is still work in progress]</p>
+<p id="rfc.section.7.p.1">QUIC exposes some information to the network in the unencrypted part of the header, either before the encryption context is established, because the information is intended to be used by the network. QUIC has a long header that is used during connection establishment and for other control processes, and a short header that may be used for data transmission in an established connection. While the long header is fixed and exposes some information, the short header only exposes the packet number by default and may optionally expose a connection ID.</p>
+<p id="rfc.section.7.p.2">Given that exposing this information may make it possible to associate multiple addresses with a single client during rebinding, which has privacy implications, an application may indicate to not support exposure of certain information after the handshake. Specificially, an application that has additional information that the client is not behind a NAT and the server is not behind a load balancer, and therefore it is unlikely that the addresses will be re-bound, may indicate to the transport that is wishes to not expose a connection ID.</p>
+<h1 id="rfc.section.7.1">
+<a href="#rfc.section.7.1">7.1.</a> <a href="#server-generated-connection-id" id="server-generated-connection-id">Server-Generated Connection ID</a>
+</h1>
+<p id="rfc.section.7.1.p.1">QUIC supports a server-generated Connection ID, transmitted to the client during connection establishment: see Section 5.7 of <a href="#QUIC" class="xref">[QUIC]</a> Servers behind load balancers should propose a Connection ID during the handshake, encoding the identity of the server or information about its load balancing pool, in order to support stateless load balancing. Once the server generates a Connection ID that encodes its identity, every CDN load balancer would be able to forward the packets to that server without needing information about every specific flow it is forwarding.</p>
+<p id="rfc.section.7.1.p.2">Server-generated Connection IDs must not encode any information other that that needed to route packets to the appropriate backend server(s): typically the identity of the backend server or pool of servers, if the data-center&#8217;s load balancing system keeps &#8220;local&#8221; state of all flows itself.  Care must be exercised to ensure that the information encoded in the Connection ID is not sufficient to identify unique end users. Note that by encoding routing information in the Connection ID, load balancers open up a new attack vector that allows bad actors to direct traffic at a specific backend server or pool.  It is therefore recommended that Server-Generated Connection ID includes a cryptographic MAC that the load balancer pool server are able to identify and discard packets featuring an invalid MAC.</p>
 <h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> <a href="#connid" id="connid">Information exposure and the Connection ID</a>
+<a href="#rfc.section.8">8.</a> <a href="#using-server-retry-for-redirection" id="using-server-retry-for-redirection">Using Server Retry for Redirection</a>
 </h1>
-<p id="rfc.section.8.p.1">QUIC exposes some information to the network in the unencrypted part of the header, either before the encryption context is established, because the information is intended to be used by the network. QUIC has a long header that is used during connection establishment and for other control processes, and a short header that may be used for data transmission in an established connection. While the long header is fixed and exposes some information, the short header only exposes the packet number by default and may optionally expose a connection ID.</p>
-<p id="rfc.section.8.p.2">Given that exposing this information may make it possible to associate multiple addresses with a single client during rebinding, which has privacy implications, an application may indicate to not support exposure of certain information after the handshake. Specificially, an application that has additional information that the client is not behind a NAT and the server is not behind a load balancer, and therefore it is unlikely that the addresses will be re-bound, may indicate to the transport that is wishes to not expose a connection ID.</p>
-<h1 id="rfc.section.8.1">
-<a href="#rfc.section.8.1">8.1.</a> <a href="#server-generated-connection-id" id="server-generated-connection-id">Server-Generated Connection ID</a>
-</h1>
-<p id="rfc.section.8.1.p.1">QUIC supports a server-generated Connection ID, transmitted to the client during connection establishment: see section 5.7 of <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> Servers behind load balancers should propose a Connection ID during the handshake, encoding the identity of the server or information about its load balancing pool, in order to support stateless load balancing. Once the server generates a Connection ID that encodes its identity, every CDN load balancer would be able to forward the packets to that server without needing information about every specific flow it is forwarding.</p>
-<p id="rfc.section.8.1.p.2">Server-generated Connection IDs must not encode any information other that that needed to route packets to the appropriate backend server(s): typically the identity of the backend server or pool of servers, if the data-center&#8217;s load balancing system keeps &#8220;local&#8221; state of all flows itself.  Care must be exercised to ensure that the information encoded in the Connection ID is not sufficient to identify unique end users. Note that by encoding routing information in the Connection ID, load balancers open up a new attack vector that allows bad actors to direct traffic at a specific backend server or pool.  It is therefore recommended that Server-Generated Connection ID includes a cryptographic MAC that the load balancer pool server are able to identify and discard packets featuring an invalid MAC.</p>
+<p id="rfc.section.8.p.1">QUIC provide a Server Retry packet that can be send by a server in response to the Client Initial packet. The server may choose a new connection ID in that packet and the client will retry by sending another Client Initial packet with the server-selected connection ID. This mechanism can be used to redirect a connection to a different server, e.g. due to performance reasons or when servers in a server pool are upgraded gradually, and therefore may support different versions of QUIC. In this case, it is assumed that all servers belonging to a certain pool are served in cooperation with load balancers that forward the traffic based on the connection ID. A server can chose the connection ID in the Server Retry packet such that the load balancer will redirect the next Client Initial packet to a different server in that pool.</p>
 <h1 id="rfc.section.9">
-<a href="#rfc.section.9">9.</a> <a href="#using-server-retry-for-redirection" id="using-server-retry-for-redirection">Using Server Retry for Redirection</a>
+<a href="#rfc.section.9">9.</a> <a href="#use-of-versions-and-cryptographic-handshake" id="use-of-versions-and-cryptographic-handshake">Use of Versions and Cryptographic Handshake</a>
 </h1>
-<p id="rfc.section.9.p.1">QUIC provide a Server Retry packet that can be send by a server in response to the Client Initial packet. The server may choose a new connection ID in that packet and the client will retry by sending another Client Initial packet with the server-selected connection ID. This mechanism can be used to redirect a connection to a different server, e.g. due to performance reasons or when servers in a server pool are upgraded gradually, and therefore may support different versions of QUIC. In this case, it is assumed that all servers belonging to a certain pool are served in cooperation with load balancers that forward the traffic based on the connection ID. A server can chose the connection ID in the Server Retry packet such that the load balancer will redirect the next Client Initial packet to a different server in that pool.</p>
+<p id="rfc.section.9.p.1">Versioning in QUIC may change the the protocol&#8217;s behavior completely, except for the meaning of a few header fields that have been declared to be fixed. As such version of QUIC with a higher version number does not necessarily provide a better service, but might simply provide a very different service, so an application needs to be able to select which versions of QUIC it wants to use.</p>
+<p id="rfc.section.9.p.2">A new version could use an encryption scheme other than TLS 1.3 or higher.  <a href="#QUIC" class="xref">[QUIC]</a> specifies requirements for the cryptographic handshake as currently realized by TLS 1.3 and described in a separate specification <a href="#QUIC-TLS" class="xref">[QUIC-TLS]</a>. This split is performed to enable light-weight versioning with different cryptographic handshakes.</p>
 <h1 id="rfc.section.10">
-<a href="#rfc.section.10">10.</a> <a href="#use-of-versions-and-cryptographic-handshake" id="use-of-versions-and-cryptographic-handshake">Use of Versions and Cryptographic Handshake</a>
+<a href="#rfc.section.10">10.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
 </h1>
-<p id="rfc.section.10.p.1">Versioning in QUIC may change the the protocol&#8217;s behavior completely, except for the meaning of a few header fields that have been declared to be fixed. As such version of QUIC with a higher version number does not necessarily provide a better service, but might simply provide a very different service, so an application needs to be able to select which versions of QUIC it wants to use.</p>
-<p id="rfc.section.10.p.2">A new version could use an encryption scheme other than TLS 1.3 or higher.  <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> specifies requirements for the cryptographic handshake as currently realized by TLS 1.3 and described in a separate specification <a href="#I-D.ietf-quic-tls" class="xref">[I-D.ietf-quic-tls]</a>. This split is performed to enable light-weight versioning with different cryptographic handshakes.</p>
+<p id="rfc.section.10.p.1">This document has no actions for IANA.</p>
 <h1 id="rfc.section.11">
-<a href="#rfc.section.11">11.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+<a href="#rfc.section.11">11.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
-<p id="rfc.section.11.p.1">This document has no actions for IANA.</p>
+<p id="rfc.section.11.p.1">See the security considerations in <a href="#QUIC" class="xref">[QUIC]</a> and <a href="#QUIC-TLS" class="xref">[QUIC-TLS]</a>; the security considerations for the underlying transport protocol are relevant for applications using QUIC, as well.</p>
+<p id="rfc.section.11.p.2">Application developers should note that any fallback they use when QUIC cannot be used due to network blocking of UDP SHOULD guarantee the same security properties as QUIC; if this is not possible, the connection SHOULD fail to allow the application to explicitly handle fallback to a less-secure alternative. See <a href="#fallback" class="xref">Section 2</a>.</p>
 <h1 id="rfc.section.12">
-<a href="#rfc.section.12">12.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+<a href="#rfc.section.12">12.</a> <a href="#contributors" id="contributors">Contributors</a>
 </h1>
-<p id="rfc.section.12.p.1">See the security considerations in <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> and <a href="#I-D.ietf-quic-tls" class="xref">[I-D.ietf-quic-tls]</a>; the security considerations for the underlying transport protocol are relevant for applications using QUIC, as well.</p>
-<p id="rfc.section.12.p.2">Application developers should note that any fallback they use when QUIC cannot be used due to network blocking of UDP SHOULD guarantee the same security properties as QUIC; if this is not possible, the connection SHOULD fail to allow the application to explicitly handle fallback to a less-secure alternative. See <a href="#fallback" class="xref">Section 2</a>.</p>
+<p id="rfc.section.12.p.1">Igor Lubashev contributed text to <a href="#connid" class="xref">Section 7</a> on server-selected connection IDs.</p>
 <h1 id="rfc.section.13">
-<a href="#rfc.section.13">13.</a> <a href="#contributors" id="contributors">Contributors</a>
+<a href="#rfc.section.13">13.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
 </h1>
-<p id="rfc.section.13.p.1">Igor Lubashev contributed text to <a href="#connid" class="xref">Section 8</a> on server-selected connection IDs.</p>
-<h1 id="rfc.section.14">
-<a href="#rfc.section.14">14.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
-</h1>
-<p id="rfc.section.14.p.1">This work is partially supported by the European Commission under Horizon 2020 grant agreement no. 688421 Measurement and Architecture for a Middleboxed Internet (MAMI), and by the Swiss State Secretariat for Education, Research, and Innovation under contract no. 15.0268. This support does not imply endorsement.</p>
+<p id="rfc.section.13.p.1">This work is partially supported by the European Commission under Horizon 2020 grant agreement no. 688421 Measurement and Architecture for a Middleboxed Internet (MAMI), and by the Swiss State Secretariat for Education, Research, and Innovation under contract no. 15.0268. This support does not imply endorsement.</p>
 <h1 id="rfc.references">
-<a href="#rfc.references">15.</a> References</h1>
+<a href="#rfc.references">14.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">15.1.</a> Normative References</h1>
+<a href="#rfc.references.1">14.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
-<td class="reference"><b id="I-D.ietf-quic-tls">[I-D.ietf-quic-tls]</b></td>
-<td class="top">
-<a>Thomson, M.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-tls-04">Using Transport Layer Security (TLS) to Secure QUIC</a>", Internet-Draft draft-ietf-quic-tls-04, June 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</b></td>
+<td class="reference"><b id="QUIC">[QUIC]</b></td>
 <td class="top">
 <a>Iyengar, J.</a> and <a>M. Thomson</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-transport-04">QUIC: A UDP-Based Multiplexed and Secure Transport</a>", Internet-Draft draft-ietf-quic-transport-04, June 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="QUIC-TLS">[QUIC-TLS]</b></td>
+<td class="top">
+<a>Thomson, M.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-tls-04">Using Transport Layer Security (TLS) to Secure QUIC</a>", Internet-Draft draft-ietf-quic-tls-04, June 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
 <td class="top">
 <a>Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
 </tr>
+<tr>
+<td class="reference"><b id="TLS13">[TLS13]</b></td>
+<td class="top">
+<a>Thomson, M.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-tls-04">Using Transport Layer Security (TLS) to Secure QUIC</a>", Internet-Draft draft-ietf-quic-tls-04, June 2017.</td>
+</tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">15.2.</a> Informative References</h1>
+<a href="#rfc.references.2">14.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="Edeline16">[Edeline16]</b></td>
 <td class="top">
-<a>Edeline, K.</a>, <a>Kuehlewind, M.</a>, <a>Trammell, B.</a>, <a>Aben, E.</a> and <a>B. Donnet</a>, "<a>Using UDP for Internet Transport Evolution (arXiv preprint 1612.07816)</a>", December 2016.</td>
+<a>Edeline, K.</a>, <a>Kuehlewind, M.</a>, <a>Trammell, B.</a>, <a>Aben, E.</a> and <a>B. Donnet</a>, "<a href="https://arxiv.org/abs/1612.07816">Using UDP for Internet Transport Evolution (arXiv preprint 1612.07816)</a>", December 2016.</td>
 </tr>
 <tr>
-<td class="reference"><b id="I-D.ietf-quic-http">[I-D.ietf-quic-http]</b></td>
+<td class="reference"><b id="HTTP-RETRY">[HTTP-RETRY]</b></td>
 <td class="top">
-<a>Bishop, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-http-04">Hypertext Transfer Protocol (HTTP) over QUIC</a>", Internet-Draft draft-ietf-quic-http-04, June 2017.</td>
+<a>Nottingham, M.</a>, "<a href="http://tools.ietf.org/html/draft-nottingham-httpbis-retry-01">Retrying HTTP Requests</a>", Internet-Draft draft-nottingham-httpbis-retry-01, February 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="I-D.nottingham-httpbis-retry">[I-D.nottingham-httpbis-retry]</b></td>
@@ -532,17 +537,22 @@ address {
 <tr>
 <td class="reference"><b id="PaaschNanog">[PaaschNanog]</b></td>
 <td class="top">
-<a>Paasch, C.</a>, "<a>Network Ssupport for TCP Fast Open (NANOG 67 presentation)</a>", June 2016.</td>
+<a>Paasch, C.</a>, "<a href="https://www.nanog.org/sites/default/files/Paasch_Network_Support.pdf">Network Support for TCP Fast Open (NANOG 67 presentation)</a>", June 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="QUIC-HTTP">[QUIC-HTTP]</b></td>
+<td class="top">
+<a>Bishop, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-http-04">Hypertext Transfer Protocol (HTTP) over QUIC</a>", Internet-Draft draft-ietf-quic-http-04, June 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="Swett16">[Swett16]</b></td>
 <td class="top">
-<a>Swett, I.</a>, "<a>QUIC Deployment Experience at Google (IETF96 QUIC BoF presentation)</a>", July 2016.</td>
+<a>Swett, I.</a>, "<a href="https://www.ietf.org/proceedings/96/slides/slides-96-quic-3.pdf">QUIC Deployment Experience at Google (IETF96 QUIC BoF presentation)</a>", July 2016.</td>
 </tr>
 <tr>
 <td class="reference"><b id="Trammell16">[Trammell16]</b></td>
 <td class="top">
-<a>Trammell, B.</a> and <a>M. Kuehlewind</a>, "<a>Internet Path Transparency Measurements using RIPE Atlas (RIPE72 MAT presentation)</a>", May 2016.</td>
+<a>Trammell, B.</a> and <a>M. Kuehlewind</a>, "<a href="https://ripe72.ripe.net/wp-content/uploads/presentations/86-atlas-udpdiff.pdf">Internet Path Transparency Measurements using RIPE Atlas (RIPE72 MAT presentation)</a>", May 2016.</td>
 </tr>
 </tbody></table>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>

@@ -307,7 +307,7 @@ address {
 
   <meta name="dct.creator" content="Kuehlewind, M., Trammell, B., and D. Druta" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-quic-manageability-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2017-6-19" />
+  <meta name="dct.issued" scheme="ISO8601" content="2017-6-27" />
   <meta name="dct.abstract" content="This document discusses manageability of the QUIC transport protocol, focusing on caveats impacting network operations involving QUIC traffic. Its intended audience is network operators, as well as content providers that rely on the use of QUIC-aware middleboxes, e.g. for load balancing." />
   <meta name="description" content="This document discusses manageability of the QUIC transport protocol, focusing on caveats impacting network operations involving QUIC traffic. Its intended audience is network operators, as well as content providers that rely on the use of QUIC-aware middleboxes, e.g. for load balancing." />
 
@@ -331,7 +331,7 @@ address {
 <td class="right">ETH Zurich</td>
 </tr>
 <tr>
-<td class="left">Expires: December 21, 2017</td>
+<td class="left">Expires: December 29, 2017</td>
 <td class="right">D. Druta</td>
 </tr>
 <tr>
@@ -340,7 +340,7 @@ address {
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">June 19, 2017</td>
+<td class="right">June 27, 2017</td>
 </tr>
 
     	
@@ -356,7 +356,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on December 21, 2017.</p>
+<p>This Internet-Draft will expire on December 29, 2017.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2017 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -419,7 +419,7 @@ address {
   <h1 id="rfc.section.1">
 <a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
 </h1>
-<p id="rfc.section.1.p.1">QUIC <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> is a new transport protocol currently under development in the IETF quic working group, focusing on support of semantics as needed for HTTP/2 <a href="#I-D.ietf-quic-http" class="xref">[I-D.ietf-quic-http]</a>. Based on current deployment practices, QUIC is encapsulated in UDP and encrypted by default. The current version of QUIC integrates TLS <a href="#I-D.ietf-quic-tls" class="xref">[I-D.ietf-quic-tls]</a> to encrypt all payload data and most control information. Given QUIC is an end-to-end transport protocol, all information in the protocol header, even that which can be inspected, is is not meant to be mutable by the network, and will therefore be integrity-protected to the extent possible.</p>
+<p id="rfc.section.1.p.1">QUIC <a href="#QUIC" class="xref">[QUIC]</a> is a new transport protocol currently under development in the IETF quic working group, focusing on support of semantics as needed for HTTP/2 <a href="#QUIC-HTTP" class="xref">[QUIC-HTTP]</a>. Based on current deployment practices, QUIC is encapsulated in UDP and encrypted by default. The current version of QUIC integrates TLS <a href="#QUIC-TLS" class="xref">[QUIC-TLS]</a> to encrypt all payload data and most control information. Given QUIC is an end-to-end transport protocol, all information in the protocol header, even that which can be inspected, is is not meant to be mutable by the network, and will therefore be integrity-protected to the extent possible.</p>
 <p id="rfc.section.1.p.2">This document provides guidance for network operation on the management of QUIC traffic. This includes guidance on how to interpret and utilize information that is exposed by QUIC to the network as well as explaining requirement and assumptions that the QUIC protocol design takes toward the expected network treatment. It also discusses how common network management practices will be impacted by QUIC.</p>
 <p id="rfc.section.1.p.3">Of course, network management is not a one-size-fits-all endeavour: practices considered necessary or even mandatory within enterprise networks with certain compliance requirements, for example, would be impermissible on other networks without those requirements. This document therefore does not make any specific recommendations as to which practices should or should not be applied; for each practice, it describes what is and is not possible with the QUIC transport protocol as defined.</p>
 <p id="rfc.section.1.p.4">QUIC is at the moment very much a moving target. This document refers the state of the QUIC working group drafts as well as to changes under discussion, via issues and pull requests in GitHub current as of the time of writing.</p>
@@ -431,12 +431,12 @@ address {
 <a href="#rfc.section.2">2.</a> <a href="#features-of-the-quic-wire-image" id="features-of-the-quic-wire-image">Features of the QUIC Wire Image</a>
 </h1>
 <p id="rfc.section.2.p.1">In this section, we discusses those aspects of the QUIC transport protocol that have an impact on the design and operation of devices that forward QUIC packets.  Here, we are concerned primarily with QUIC&#8217;s unencrypted wire image, which we define as the information available in the packet header in each QUIC packet, and the dynamics of that information. Since QUIC is a versioned protocol, also the wire image of the header format can change. However, at least the mechanism by which a receiver can determine which version is used and the meaning and location of fields used in the version negotiation process need to be fixed.</p>
-<p id="rfc.section.2.p.2">This document is focused on the protocol as presently defined in <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> and <a href="#I-D.ietf-quic-tls" class="xref">[I-D.ietf-quic-tls]</a>, and will change to track those documents.</p>
+<p id="rfc.section.2.p.2">This document is focused on the protocol as presently defined in <a href="#QUIC" class="xref">[QUIC]</a> and <a href="#QUIC-TLS" class="xref">[QUIC-TLS]</a>, and will change to track those documents.</p>
 <h1 id="rfc.section.2.1">
 <a href="#rfc.section.2.1">2.1.</a> <a href="#public-header" id="public-header">QUIC Packet Header Structure</a>
 </h1>
-<p id="rfc.section.2.1.p.1">The QUIC packet header is under active development; see section 5 of <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a> for the present header structure.</p>
-<p id="rfc.section.2.1.p.2">The first bit of the QUIC header indicates the present of a long header that exposes more information than the short header. The long header is typically used during connection start or for other control processes while the short header will be used on most data packets to limited unnecessary header overhead. The fields and location of these fields as defined by the current version of QUIC for the long header are fixed for all future version as well. However, note that future versions of QUIC may provide additional fields. In the current version of quic the long header for all header types has a fixed length, containing, besides the Header Form bit, a 7-bit header Type, a 64-bit Connection ID, a 32-bit Packet Number, and a 32-bit Version. The short header is variable length where bits after the Header Form bit indicate the present on the Connection ID, and the length of the packet number.</p>
+<p id="rfc.section.2.1.p.1">The QUIC packet header is under active development; see section 5 of <a href="#QUIC" class="xref">[QUIC]</a> for the present header structure.</p>
+<p id="rfc.section.2.1.p.2">The first bit of the QUIC header indicates the present of a long header that exposes more information than the short header. The long header is typically used during connection start or for other control processes while the short header will be used on most data packets to limited unnecessary header overhead.  The fields and location of these fields as defined by the current version of QUIC for the long header are fixed for all future version as well. However, note that future versions of QUIC may provide additional fields. In the current version of quic the long header for all header types has a fixed length, containing, besides the Header Form bit, a 7-bit header Type, a 64-bit Connection ID, a 32-bit Packet Number, and a 32-bit Version. The short header is variable length where bits after the Header Form bit indicate the present on the Connection ID, and the length of the packet number.</p>
 <p id="rfc.section.2.1.p.3">The following information may be exposed in the packet header:</p>
 <p></p>
 
@@ -450,11 +450,11 @@ address {
 <h1 id="rfc.section.2.2">
 <a href="#rfc.section.2.2">2.2.</a> <a href="#wire-integrity" id="wire-integrity">Integrity Protection of the Wire Image</a>
 </h1>
-<p id="rfc.section.2.2.p.1">As soon as the cryptographic context is established, all information in the QUIC header, including those exposed in the packet header, is integrity protected. Further, information that were sent and exposed in previous packets when the cryptographic context was established yet, e.g. for the cryptographic initial handshake itself, will be validate later during the cryptographic handshake, such as the version number.  Therefore, devices on path MUST NOT change any information or bits in QUIC packet headers. As alteration of header information would cause packet drop due to a failed integrity check at the receiver, or can even lead to connection termination.</p>
+<p id="rfc.section.2.2.p.1">As soon as the cryptographic context is established, all information in the QUIC header, including those exposed in the packet header, is integrity protected.  Further, information that were sent and exposed in previous packets when the cryptographic context was established yet, e.g. for the cryptographic initial handshake itself, will be validate later during the cryptographic handshake, such as the version number.  Therefore, devices on path MUST NOT change any information or bits in QUIC packet headers. As alteration of header information would cause packet drop due to a failed integrity check at the receiver, or can even lead to connection termination.</p>
 <h1 id="rfc.section.2.3">
 <a href="#rfc.section.2.3">2.3.</a> <a href="#rebinding" id="rebinding">Connection ID and Rebinding</a>
 </h1>
-<p id="rfc.section.2.3.p.1">The connection ID in the QUIC packer header is used to allow routing of QUIC packets at load balancers on other than five-tuple information, ensuring that related flows are appropriately balanced together; and to allow rebinding of a connection after one of the endpoint&#8217;s addresses changes - usually the client&#8217;s, in the case of the HTTP binding. The connection ID is proposed by the server during connection establishment, and a server might provide additional connection IDs that can the used by the client at any time during the connection. Therefore if a flow changes one of its IP addresses it may keep the same connection ID, or the connection ID may also change together with the IP address migration, avoiding linkability; see section 7.6 of <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>.</p>
+<p id="rfc.section.2.3.p.1">The connection ID in the QUIC packer header is used to allow routing of QUIC packets at load balancers on other than five-tuple information, ensuring that related flows are appropriately balanced together; and to allow rebinding of a connection after one of the endpoint&#8217;s addresses changes - usually the client&#8217;s, in the case of the HTTP binding. The connection ID is proposed by the server during connection establishment, and a server might provide additional connection IDs that can the used by the client at any time during the connection. Therefore if a flow changes one of its IP addresses it may keep the same connection ID, or the connection ID may also change together with the IP address migration, avoiding linkability; see Section 7.6 of <a href="#QUIC" class="xref">[QUIC]</a>.</p>
 <h1 id="rfc.section.2.4">
 <a href="#rfc.section.2.4">2.4.</a> <a href="#packetnumber" id="packetnumber">Packet Numbers</a>
 </h1>
@@ -477,8 +477,8 @@ address {
 <h1 id="rfc.section.3.1">
 <a href="#rfc.section.3.1">3.1.</a> <a href="#statefulness" id="statefulness">Stateful Treatment of QUIC Traffic</a>
 </h1>
-<p id="rfc.section.3.1.p.1">Stateful network devices such as firewalls use exposed header information to support state setup and tear-down. <a href="#I-D.trammell-plus-statefulness" class="xref">[I-D.trammell-plus-statefulness]</a> provides a general model for in-network state management on these devices, independent of transport protocol. Features already present in QUIC may be used for state maintenance in this model. Here, there are two important goals: distinguishing valid QUIC connection establishment from other traffic, in order to establish state; and determining the end of a QUIC connection, in order to tear that state down.</p>
-<p id="rfc.section.3.1.p.2">Both, 1-RTT and O-RTT connection establishment, using a TLS handshake on stream 0, is detectable using heuristics similar to those used to detect TLS over TCP. 0-RTT connection may additional also send data packets, right after the client hello. These data may be reorder in the network, therefore it may be possible that 0-RTT Protected data packet are seen before the Client Initial packet.</p>
+<p id="rfc.section.3.1.p.1">Stateful network devices such as firewalls use exposed header information to support state setup and tear-down. <a href="#STATEFULNESS" class="xref">[STATEFULNESS]</a> provides a general model for in-network state management on these devices, independent of transport protocol. Features already present in QUIC may be used for state maintenance in this model. Here, there are two important goals: distinguishing valid QUIC connection establishment from other traffic, in order to establish state; and determining the end of a QUIC connection, in order to tear that state down.</p>
+<p id="rfc.section.3.1.p.2">Both, 1-RTT and O-RTT connection establishment, using a TLS handshake on stream 0, is detectable using heuristics similar to those used to detect TLS over TCP.  0-RTT connection may additional also send data packets, right after the client hello. These data may be reorder in the network, therefore it may be possible that 0-RTT Protected data packet are seen before the Client Initial packet.</p>
 <p id="rfc.section.3.1.p.3">Exposure of connection shutdown is currently under discussion; see https://github.com/quicwg/base-drafts/issues/353 and https://github.com/quicwg/base-drafts/pull/20.</p>
 <h1 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> <a href="#measurement" id="measurement">Measurement of QUIC Traffic</a>
@@ -493,7 +493,7 @@ address {
 </h1>
 <p id="rfc.section.3.3.p.1">For enterprises and network operators one of the biggest management challenges is dealing with Distributed Denial of Service (DDoS) attacks. Some network operators offer Security as a Service (SaaS) solutions that detect attacks by monitoring, analyzing and filtering traffic. These approaches generally utilize network flow data <a href="#RFC7011" class="xref">[RFC7011]</a>. If any flows pose a threat, usually they are routed to a &#8220;scrubbing environment&#8221; where the traffic is filtered, allowing the remaining &#8220;good&#8221; traffic to continue to the customer environment.</p>
 <p id="rfc.section.3.3.p.2">This type of DDoS mitigation is fundamentally based on tracking state for flows (see <a href="#statefulness" class="xref">Section 3.1</a>) that have receiver confirmation and a proof of return-routability, and classifying flows as legitimate or DoS traffic. The QUIC packet header currently does not support an explicit mechanism to easily distinguish legitimate QUIC traffic from other UDP traffic. However, the first packet in a QUIC connection will usually be a Client Initial packet.  This can be used to identify the first packet of the connection.</p>
-<p id="rfc.section.3.3.p.3">If the QUIC handshake was not observed by the defense system, the connection ID can be used as a confirmation signal as per <a href="#I-D.trammell-plus-statefulness" class="xref">[I-D.trammell-plus-statefulness]</a> if present in both directions.</p>
+<p id="rfc.section.3.3.p.3">If the QUIC handshake was not observed by the defense system, the connection ID can be used as a confirmation signal as per <a href="#STATEFULNESS" class="xref">[STATEFULNESS]</a> if present in both directions.</p>
 <p id="rfc.section.3.3.p.4">Further, the use of a connection ID to support connection migration renders 5-tuple based filtering insufficient, and requires more state to be maintained by DDoS defense systems. However, it is questionable if connection migrations needs to be supported in a DDOS attack. If the connection migration is not visible to the network that performs the DDoS detection, an active, migrated QUIC connection may be blocked by such a system under attack. However, a defense system might simply rely on the fast resumption mechanism provided by QUIC. This problem is also related to these issues under discussion: https://github.com/quicwg/base-drafts/issues/203</p>
 <h1 id="rfc.section.3.4">
 <a href="#rfc.section.3.4">3.4.</a> <a href="#qos-support-and-ecmp" id="qos-support-and-ecmp">QoS support and ECMP</a>
@@ -507,7 +507,7 @@ address {
 <p id="rfc.section.3.5.p.1">The Connection ID is used in part to support load balancing in content distribution networks (CDNs), which operate complex, geographically distributed pools of back-end servers, fronted by load balancing systems.  These load balancers are responsible for identifying the most appropriate server for each connection and for routing all packets belonging to that connection to the chosen server.</p>
 <p id="rfc.section.3.5.p.2">Load balancers are often deployed in pools for redundancy and load sharing. For high availability, it is important that when packets belonging to a flow start to arrive at a different load balancer in the load balancer pool, the packets continue to be forwarded to the original server in the server pool.</p>
 <p id="rfc.section.3.5.p.3">Support for seamless connection migration is an important design goal of QUIC &#8211; a necessity due to the proliferation of mobile connected devices. This connection persistence provides an additional challenge for multi-homed anycast-based services often employed by large content owners and CDNs. The challenge is that a migration to a different network in the middle of the connection greatly increases the chances of the packets routed to a different anycast point of presence (POP) due to the new network&#8217;s different connectivity and Internet peering arrangements. The load balancer in the new POP, potentially thousands of miles away, will not have information about the established flow and would not be able to route it back to the original POP.</p>
-<p id="rfc.section.3.5.p.4">Load balancers may cooperate with servers or server pools behind them to use a server-generated Connection ID value, in order to support stateless load balancing, even across NAT rebinding or other address change events (see <a href="#rebinding" class="xref">Section 2.3</a>). See section 5.7 of <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>.</p>
+<p id="rfc.section.3.5.p.4">Load balancers may cooperate with servers or server pools behind them to use a server-generated Connection ID value, in order to support stateless load balancing, even across NAT rebinding or other address change events (see <a href="#rebinding" class="xref">Section 2.3</a>). See section 5.7 of <a href="#QUIC" class="xref">[QUIC]</a>.</p>
 <p id="rfc.section.3.5.p.5">Server-generated Connection IDs must not encode any information other that that needed to route packets to the appropriate backend server(s): typically the identity of the backend server or pool of servers, if the data-center&#8217;s load balancing system keeps &#8220;local&#8221; state of all flows itself.  Care must be exercised to ensure that the information encoded in the Connection ID is not sufficient to identify unique end users. Note that by encoding routing information in the Connection ID, load balancers open up a new attack vector that allows bad actors to direct traffic at a specific backend server or pool.  It is therefore recommended that Server-Generated Connection ID includes a cryptographic MAC that the load balancer pool server are able to identify and discard packets featuring an invalid MAC.</p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
@@ -533,14 +533,19 @@ address {
 <a href="#rfc.references.1">8.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
-<td class="reference"><b id="I-D.ietf-quic-tls">[I-D.ietf-quic-tls]</b></td>
-<td class="top">
-<a>Thomson, M.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-tls-04">Using Transport Layer Security (TLS) to Secure QUIC</a>", Internet-Draft draft-ietf-quic-tls-04, June 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</b></td>
+<td class="reference"><b id="QUIC">[QUIC]</b></td>
 <td class="top">
 <a>Iyengar, J.</a> and <a>M. Thomson</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-transport-04">QUIC: A UDP-Based Multiplexed and Secure Transport</a>", Internet-Draft draft-ietf-quic-transport-04, June 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="QUIC-HTTP">[QUIC-HTTP]</b></td>
+<td class="top">
+<a>Bishop, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-http-04">Hypertext Transfer Protocol (HTTP) over QUIC</a>", Internet-Draft draft-ietf-quic-http-04, June 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="QUIC-TLS">[QUIC-TLS]</b></td>
+<td class="top">
+<a>Thomson, M.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-tls-04">Using Transport Layer Security (TLS) to Secure QUIC</a>", Internet-Draft draft-ietf-quic-tls-04, June 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -554,27 +559,22 @@ address {
 <tr>
 <td class="reference"><b id="Ding2015">[Ding2015]</b></td>
 <td class="top">
-<a>Ding, H.</a> and <a>M. Rabinovich</a>, "<a>TCP Stretch Acknowledgments and Timestamps - Findings and Impliciations for Passive RTT Measurement (ACM Computer Communication Review)</a>", July 2015.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.ietf-quic-http">[I-D.ietf-quic-http]</b></td>
-<td class="top">
-<a>Bishop, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-quic-http-04">Hypertext Transfer Protocol (HTTP) over QUIC</a>", Internet-Draft draft-ietf-quic-http-04, June 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.trammell-plus-statefulness">[I-D.trammell-plus-statefulness]</b></td>
-<td class="top">
-<a>Kuehlewind, M.</a>, <a>Trammell, B.</a> and <a>J. Hildebrand</a>, "<a href="http://tools.ietf.org/html/draft-trammell-plus-statefulness-03">Transport-Independent Path Layer State Management</a>", Internet-Draft draft-trammell-plus-statefulness-03, March 2017.</td>
+<a>Ding, H.</a> and <a>M. Rabinovich</a>, "<a href="http://www.sigcomm.org/sites/default/files/ccr/papers/2015/July/0000000-0000002.pdf">TCP Stretch Acknowledgments and Timestamps - Findings and Impliciations for Passive RTT Measurement (ACM Computer Communication Review)</a>", July 2015.</td>
 </tr>
 <tr>
 <td class="reference"><b id="IPIM">[IPIM]</b></td>
 <td class="top">
-<a>Allman, M.</a>, <a>Beverly, R.</a> and <a>B. Trammell</a>, "<a>In-Protocol Internet Measurement (arXiv preprint 1612.02902)</a>", December 2016.</td>
+<a>Allman, M.</a>, <a>Beverly, R.</a> and <a>B. Trammell</a>, "<a href="https://arxiv.org/abs/1612.02902">In-Protocol Internet Measurement (arXiv preprint 1612.02902)</a>", December 2016.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7011">[RFC7011]</b></td>
 <td class="top">
 <a>Claise, B.</a>, <a>Trammell, B.</a> and <a>P. Aitken</a>, "<a href="http://tools.ietf.org/html/rfc7011">Specification of the IP Flow Information Export (IPFIX) Protocol for the Exchange of Flow Information</a>", STD 77, RFC 7011, DOI 10.17487/RFC7011, September 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="STATEFULNESS">[STATEFULNESS]</b></td>
+<td class="top">
+<a>Kuehlewind, M.</a>, <a>Trammell, B.</a> and <a>J. Hildebrand</a>, "<a href="http://tools.ietf.org/html/draft-trammell-plus-statefulness-03">Transport-Independent Path Layer State Management</a>", Internet-Draft draft-trammell-plus-statefulness-03, March 2017.</td>
 </tr>
 </tbody></table>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
