@@ -5,7 +5,7 @@
 Network Working Group                                      M. Kuehlewind
 Internet-Draft                                               B. Trammell
 Intended status: Informational                                ETH Zurich
-Expires: December 29, 2017                                 June 27, 2017
+Expires: January 4, 2018                                   July 03, 2017
 
 
               Applicability of the QUIC Transport Protocol
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 29, 2017.
+   This Internet-Draft will expire on January 4, 2018.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 1]
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 1]
 
-Internet-Draft             QUIC Applicability                  June 2017
+Internet-Draft             QUIC Applicability                  July 2017
 
 
 Table of Contents
@@ -64,7 +64,7 @@ Table of Contents
      1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   3
    2.  The Necessity of Fallback . . . . . . . . . . . . . . . . . .   3
    3.  Zero RTT  . . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     3.1.  Thinking in zero RTT  . . . . . . . . . . . . . . . . . .   4
+     3.1.  Thinking in Zero RTT  . . . . . . . . . . . . . . . . . .   4
      3.2.  Here There Be Dragons . . . . . . . . . . . . . . . . . .   4
      3.3.  Session resumption versus Keep-alive  . . . . . . . . . .   4
    4.  Stream versus Flow Multiplexing . . . . . . . . . . . . . . .   4
@@ -73,13 +73,13 @@ Table of Contents
    7.  Information exposure and the Connection ID  . . . . . . . . .   5
      7.1.  Server-Generated Connection ID  . . . . . . . . . . . . .   6
    8.  Using Server Retry for Redirection  . . . . . . . . . . . . .   6
-   9.  Use of Versions and Cryptographic Handshake . . . . . . . . .   6
+   9.  Use of Versions and Cryptographic Handshake . . . . . . . . .   7
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
    11. Security Considerations . . . . . . . . . . . . . . . . . . .   7
    12. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .   7
    13. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   7
-   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     14.1.  Normative References . . . . . . . . . . . . . . . . . .   7
+   14. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     14.1.  Normative References . . . . . . . . . . . . . . . . . .   8
      14.2.  Informative References . . . . . . . . . . . . . . . . .   8
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 2]
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 2]
 
-Internet-Draft             QUIC Applicability                  June 2017
+Internet-Draft             QUIC Applicability                  July 2017
 
 
 1.1.  Notational Conventions
@@ -165,38 +165,48 @@ Internet-Draft             QUIC Applicability                  June 2017
 
 
 
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 3]
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 3]
 
-Internet-Draft             QUIC Applicability                  June 2017
+Internet-Draft             QUIC Applicability                  July 2017
 
 
-3.1.  Thinking in zero RTT
+3.1.  Thinking in Zero RTT
 
-   [EDITOR'S NOTE: Jana noted at the interim in Paris that we should
-   point out that applications need to be re-thought slightly to get the
-   benefits of zero RTT.  Add a little text here to discuss this and why
-   it's worth the effort, before we go straight into the dragons.]
+   A transport protocol that provides 0-RTT connection establishment to
+   recently contacted servers is qualitatively different than one that
+   does not from the point of view of the application using it.
+   Relative tradeoffs between the cost of closing and reopening a
+   connection and trying to keep it open are different; see Section 3.3.
+
+   Applications must be slightly rethought in order to make best use of
+   0-RTT resumption.  Most importantly, application operations must be
+   divided into idempotent and non-idempotent operations, as only
+   idempotent operations may appear in 0-RTT packets.  This implies that
+   the interface between the application and transport layer exposes
+   idempotence either ecplicitly or implicitly.
 
 3.2.  Here There Be Dragons
 
-   However, data in the frames contained in 0-RTT packets of a such a
-   connection must be treated specially by the application layer.
-   Replay of these packets can cause the data to processed twice.  This
-   is further described in [HTTP-RETRY].
+   Retransmission or (malicious) replay of data contained in 0-RTT
+   resumption packets could cause the server side to receive two copies
+   of the same data.  This is further described in [HTTP-RETRY].  Data
+   sent during 0-RTT resumption also cannot benefit from perfect forward
+   secrecy (PFS).
 
-   0-RTT data also does not benefit from perfect forward secrecy (PFS).
-
-   Applications that cannot treat data that may appear in a 0-RTT
-   connection establishment as idempotent MUST NOT use 0-RTT
-   establishment.  For this reason the QUIC transport SHOULD provide an
-   interface for the application to indicate if 0-RTT support is in
-   general desired or a way to indicate whether data is idempotent, and/
-   or whether PFS is a hard requirement
+   Data in the first flight sent by the client in a connection
+   established with 0-RTT MUST be idempotent.  Applications MUST be
+   designed, and their data MUST be framed, such that multiple reception
+   of idempotent data is recognized as such by the receiverApplications
+   that cannot treat data that may appear in a 0-RTT connection
+   establishment as idempotent MUST NOT use 0-RTT establishment.  For
+   this reason the QUIC transport SHOULD provide an interface for the
+   application to indicate if 0-RTT support is in general desired or a
+   way to indicate whether data is idempotent, and/or whether PFS is a
+   hard requirement for the application.
 
 3.3.  Session resumption versus Keep-alive
 
-   [EDITOR'S NOTE: guidance/recommendation to us 0-RTT session
-   resumption rather then sending keep-alives?]
+   [EDITOR'S NOTE: see https://github.com/quicwg/ops-drafts/issues/6]
 
 4.  Stream versus Flow Multiplexing
 
@@ -208,6 +218,14 @@ Internet-Draft             QUIC Applicability                  June 2017
    information about the stream(s) whose frames are carried by a given
    packet is visible to the network.
 
+
+
+
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 4]
+
+Internet-Draft             QUIC Applicability                  July 2017
+
+
    Stream multiplexing is not intended to be used for differentiating
    streams in terms of network treatment.  Application traffic requiring
    different network treatment SHOULD therefore be carried over
@@ -216,15 +234,6 @@ Internet-Draft             QUIC Applicability                  June 2017
    connection (if a previous connection to the same host has been
    successfully established to provide the respective credentials), the
    cost for establishing another connection are extremely low.
-
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 4]
-
-Internet-Draft             QUIC Applicability                  June 2017
-
 
 5.  Prioritization
 
@@ -265,22 +274,18 @@ Internet-Draft             QUIC Applicability                  June 2017
    which has privacy implications, an application may indicate to not
    support exposure of certain information after the handshake.
    Specificially, an application that has additional information that
+
+
+
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 5]
+
+Internet-Draft             QUIC Applicability                  July 2017
+
+
    the client is not behind a NAT and the server is not behind a load
    balancer, and therefore it is unlikely that the addresses will be re-
    bound, may indicate to the transport that is wishes to not expose a
    connection ID.
-
-
-
-
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 5]
-
-Internet-Draft             QUIC Applicability                  June 2017
-
 
 7.1.  Server-Generated Connection ID
 
@@ -323,21 +328,22 @@ Internet-Draft             QUIC Applicability                  June 2017
    that the load balancer will redirect the next Client Initial packet
    to a different server in that pool.
 
+
+
+
+
+
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 6]
+
+Internet-Draft             QUIC Applicability                  July 2017
+
+
 9.  Use of Versions and Cryptographic Handshake
 
    Versioning in QUIC may change the the protocol's behavior completely,
    except for the meaning of a few header fields that have been declared
    to be fixed.  As such version of QUIC with a higher version number
    does not necessarily provide a better service, but might simply
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 6]
-
-Internet-Draft             QUIC Applicability                  June 2017
-
-
    provide a very different service, so an application needs to be able
    to select which versions of QUIC it wants to use.
 
@@ -376,6 +382,18 @@ Internet-Draft             QUIC Applicability                  June 2017
    for Education, Research, and Innovation under contract no. 15.0268.
    This support does not imply endorsement.
 
+
+
+
+
+
+
+
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 7]
+
+Internet-Draft             QUIC Applicability                  July 2017
+
+
 14.  References
 
 14.1.  Normative References
@@ -383,16 +401,6 @@ Internet-Draft             QUIC Applicability                  June 2017
    [QUIC]     Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", draft-ietf-quic-transport-04 (work
               in progress), June 2017.
-
-
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 7]
-
-Internet-Draft             QUIC Applicability                  June 2017
-
 
    [QUIC-TLS]
               Thomson, M. and S. Turner, "Using Transport Layer Security
@@ -432,6 +440,16 @@ Internet-Draft             QUIC Applicability                  June 2017
               <https://www.nanog.org/sites/default/files/
               Paasch_Network_Support.pdf>.
 
+
+
+
+
+
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 8]
+
+Internet-Draft             QUIC Applicability                  July 2017
+
+
    [QUIC-HTTP]
               Bishop, M., "Hypertext Transfer Protocol (HTTP) over
               QUIC", draft-ietf-quic-http-04 (work in progress), June
@@ -441,14 +459,6 @@ Internet-Draft             QUIC Applicability                  June 2017
               QUIC BoF presentation)", July 2016,
               <https://www.ietf.org/proceedings/96/slides/slides-96-
               quic-3.pdf>.
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 8]
-
-Internet-Draft             QUIC Applicability                  June 2017
-
 
    [Trammell16]
               Trammell, B. and M. Kuehlewind, "Internet Path
@@ -491,14 +501,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-Kuehlewind & Trammell   Expires December 29, 2017               [Page 9]
+Kuehlewind & Trammell    Expires January 4, 2018                [Page 9]
