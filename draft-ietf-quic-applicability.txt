@@ -5,7 +5,7 @@
 Network Working Group                                      M. Kuehlewind
 Internet-Draft                                               B. Trammell
 Intended status: Informational                                ETH Zurich
-Expires: May 7, 2018                                   November 03, 2017
+Expires: January 3, 2019                                   July 02, 2018
 
 
               Applicability of the QUIC Transport Protocol
@@ -34,11 +34,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 7, 2018.
+   This Internet-Draft will expire on January 3, 2019.
 
 Copyright Notice
 
-   Copyright (c) 2017 IETF Trust and the persons identified as the
+   Copyright (c) 2018 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 1]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 1]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 Table of Contents
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 2]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 2]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 1.1.  Notational Conventions
@@ -151,7 +151,7 @@ Internet-Draft             QUIC Applicability              November 2017
    application's expectation of confidentiality or integrity of its
    payload data.
 
-   Moreover, while encryption (in this case TLS) is inseparable
+   Moreover, while encryption (in this case TLS) is inseparably
    integrated with QUIC, TLS negotiation over TCP can be blocked.  In
    case it is RECOMMENDED to abort the connection, allowing the
    application to present a suitable prompt to the user that secure
@@ -165,9 +165,9 @@ Internet-Draft             QUIC Applicability              November 2017
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 3]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 3]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 3.1.  Thinking in Zero RTT
@@ -215,15 +215,15 @@ Internet-Draft             QUIC Applicability              November 2017
    multiple streams over a single connection, without head-of-line
    blocking between streams, associated at a point in time with a single
    five-tuple.  Stream data is carried within Frames, where one (UDP)
-   packet on the wired can carry one of multiple stream frames.
+   packet on the wire can carry one of multiple stream frames.
 
 
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 4]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 4]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
    Stream can be independently open and closed, gracefully or by error.
@@ -277,9 +277,9 @@ Internet-Draft             QUIC Applicability              November 2017
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 5]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 5]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 4.2.  Packetization and latency
@@ -307,7 +307,7 @@ Internet-Draft             QUIC Applicability              November 2017
    transport should provide an interface for applications to prioritize
    streams [QUIC].  Further applications can implement their own
    prioritization scheme on top of QUIC: (an application) protocol that
-   run on top of QUIC can define explicit messages for signaling
+   runs on top of QUIC can define explicit messages for signaling
    priority, such as those defined for HTTP/2; it can define rules that
    allow an endpoint to determine priority based on context; or it can
    provide a higher level interface and leave the determination to the
@@ -333,9 +333,9 @@ Internet-Draft             QUIC Applicability              November 2017
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 6]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 6]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 6.  Information exposure and the Connection ID
@@ -363,7 +363,7 @@ Internet-Draft             QUIC Applicability              November 2017
 6.1.  Server-Generated Connection ID
 
    QUIC supports a server-generated Connection ID, transmitted to the
-   client during connection establishment: see Section 5.7 of [QUIC]
+   client during connection establishment: see Section 5.7 of [QUIC].
    Servers behind load balancers should propose a Connection ID during
    the handshake, encoding the identity of the server or information
    about its load balancing pool, in order to support stateless load
@@ -382,21 +382,21 @@ Internet-Draft             QUIC Applicability              November 2017
    in the Connection ID, load balancers open up a new attack vector that
    allows bad actors to direct traffic at a specific backend server or
    pool.  It is therefore recommended that Server-Generated Connection
-   ID includes a cryptographic MAC that the load balancer pool server
-   are able to identify and discard packets featuring an invalid MAC.
+   ID includes a cryptographic MAC that the load balancer pool server is
+   able to identify and discard packets featuring an invalid MAC.
 
 
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 7]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 7]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 6.2.  Using Server Retry for Redirection
 
-   QUIC provide a Server Retry packet that can be send by a server in
+   QUIC provides a Server Retry packet that can be sent by a server in
    response to the Client Initial packet.  The server may choose a new
    connection ID in that packet and the client will retry by sending
    another Client Initial packet with the server-selected connection ID.
@@ -445,9 +445,9 @@ Internet-Draft             QUIC Applicability              November 2017
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 8]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 8]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
 10.  Contributors
@@ -468,13 +468,13 @@ Internet-Draft             QUIC Applicability              November 2017
 12.1.  Normative References
 
    [QUIC]     Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
-              and Secure Transport", draft-ietf-quic-transport-07 (work
-              in progress), October 2017.
+              and Secure Transport", draft-ietf-quic-transport-13 (work
+              in progress), June 2018.
 
    [QUIC-TLS]
               Thomson, M. and S. Turner, "Using Transport Layer Security
-              (TLS) to Secure QUIC", draft-ietf-quic-tls-07 (work in
-              progress), October 2017.
+              (TLS) to Secure QUIC", draft-ietf-quic-tls-13 (work in
+              progress), June 2018.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -482,8 +482,8 @@ Internet-Draft             QUIC Applicability              November 2017
               <https://www.rfc-editor.org/info/rfc2119>.
 
    [TLS13]    Thomson, M. and S. Turner, "Using Transport Layer Security
-              (TLS) to Secure QUIC", draft-ietf-quic-tls-07 (work in
-              progress), October 2017.
+              (TLS) to Secure QUIC", draft-ietf-quic-tls-13 (work in
+              progress), June 2018.
 
 12.2.  Informative References
 
@@ -501,9 +501,9 @@ Internet-Draft             QUIC Applicability              November 2017
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                  [Page 9]
+Kuehlewind & Trammell    Expires January 3, 2019                [Page 9]
 
-Internet-Draft             QUIC Applicability              November 2017
+Internet-Draft             QUIC Applicability                  July 2018
 
 
    [I-D.nottingham-httpbis-retry]
@@ -519,8 +519,8 @@ Internet-Draft             QUIC Applicability              November 2017
 
    [QUIC-HTTP]
               Bishop, M., "Hypertext Transfer Protocol (HTTP) over
-              QUIC", draft-ietf-quic-http-07 (work in progress), October
-              2017.
+              QUIC", draft-ietf-quic-http-13 (work in progress), June
+              2018.
 
    [Swett16]  Swett, I., "QUIC Deployment Experience at Google (IETF96
               QUIC BoF presentation)", July 2016,
@@ -557,4 +557,4 @@ Authors' Addresses
 
 
 
-Kuehlewind & Trammell      Expires May 7, 2018                 [Page 10]
+Kuehlewind & Trammell    Expires January 3, 2019               [Page 10]
